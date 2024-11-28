@@ -1,3 +1,10 @@
+
+
+
+https://github.com/user-attachments/assets/e4dea2bc-f442-4644-9380-ff52523157a7
+
+
+
 ## CSRT Tracker
 ## How does it track?
 
@@ -7,7 +14,7 @@ It breaks the object into small regions and then checks how reliable each part i
 Instead of relying on the whole object, the CSRT will keep focusing on reliable parts (faster, better when other parts are blurry, change color)
 The CSRT keeps checking which parts of the object is reliable effectively keeping track of the object even when the object changes its  direction/trajectory
 
-![alt text](images/image.png)
+![image](https://github.com/user-attachments/assets/3dadb0a1-2097-4d3c-9cef-8c6ead5113a2)
 
 ### Channel filtering
 - It is like dividing the image into several channels or layers to determine which one is giving the most valueable information for detecting the object. And the helpful layers are given more attention just like focusing on the outline of the car rather than its reflection in a shiny window
