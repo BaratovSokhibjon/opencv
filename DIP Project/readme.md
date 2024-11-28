@@ -1,40 +1,24 @@
-# Object Tracking Algorithms
-
 ## CSRT Tracker
-CSRT Tracker uses spatial reliability maps for adjusting the filter support to the part of the selected region from the frame for tracking. This gives it the ability to increase the search area and track non-rectangular objects. Reliability indices reflect the quality of the studied filters by channel and are used as weights for localization. Using HoGs and ColorNames as feature sets, the algorithm performs relatively well.
+## How does it track?
 
-### Pros:
-- Comparatively better accuracy than other algorithms.
-- Resistant to overlapping by other objects.
+### Spatial reliability maps
+- The CSRT creates reliability maps according to the easy-to-spot or highlighted part of the object (it has its own detection)
+It breaks the object into small regions and then checks how reliable each part is
+Instead of relying on the whole object, the CSRT will keep focusing on reliable parts (faster, better when other parts are blurry, change color)
+The CSRT keeps checking which parts of the object is reliable effectively keeping track of the object even when the object changes its  direction/trajectory
 
-### Cons:
-- Low speed.
-- Unstable operation when the object is lost.
+### Channel filtering
+- It is like dividing the image into several channels or layers to determine which one is giving the most valueable information for detecting the object. And the helpful layers are given more attention just like focusing on the outline of the car rather than its reflection in a shiny window
 
----
+### Filter optimization 
+- this part of the CSRT focuses on magnifying and focusing on the important parts of the object so that the object is easier to find.
 
-## MOSSE Tracker
-MOSSE Tracker is based on the calculation of adaptive correlations in Fourier space. The filter minimizes the sum of squared errors between the actual correlation output and the predicted correlation output. This tracker is robust to changes in lighting, scale, pose, and non-rigid deformations of the object.
+### Feature Extraction
+- HOG and Color names: Histogram of Oriented Gradients helps to capture the shape and edges of the object, like detecting the outline of the object. Color names help to track the colors of the object so it can detect better.
 
-### Pros:
-- Very high tracking speed.
-- More successful in continuing tracking the object even if it was lost.
+### Search area expansion
+- when the object moves fast for the CSRT to detect, CSRT will increase the area it is looking by zooming out to find where the object went.
 
-### Cons:
-- High likelihood of continuing tracking if the subject is lost and does not reappear in the frame.
-
----
-
-## GOTURN (Generic Object Tracking Using Regression Network) Tracker
-GOTURN Tracker is an “offline” tracker since it uses a deep convolutional neural network. Two images are fed into the network: the “previous” and the “current.” In the “previous” image, the position of the object is known, while in the “current” image, the position of the object must be predicted. Both images are passed through a convolutional neural network, which outputs a set of 4 points representing the coordinates of the predicted bounding box containing the object. As this algorithm is based on a neural network, the user needs to download and specify the model and weight files for tracking.
-
-### Pros:
-- Good resistance to noise and obstructions.
-
-### Cons:
-- The accuracy of tracking depends on the data used to train the model, which may result in poor tracking for certain objects.
-- Struggles with high-speed objects, often losing the object and shifting to another.
-
----
-
-This document compares three popular object tracking algorithms (CSRT, MOSSE, and GOTURN) based on their functionality, advantages, and disadvantages.
+### Regularization and Localizatrion
+- to avoid getting stuck, CSRT doesn't keep focusing only in tiny details of the object and balances the focus across the object which is called regularization.
+- to find exact position of the object, csrt uses all the clues like edges, colors, shapes and predicts where the object most likely to be in the next frame
